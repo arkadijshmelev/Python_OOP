@@ -20,3 +20,32 @@ class Note:
         '''Определяет, соответствует ли эта заметка фильтру. Возврацает True, если совпадает,
         иначе False. Поиск чувствителен к регистру и соответствует как тексту, так и меткам.'''
         return filter in self.memo or filter in self.tags
+    
+    
+class Notebook:
+    '''Представляет колекцию заметок, которые могут быть помечены, изменены и найдены через поиск.'''
+    def __init__(self):
+        '''Иницианализируем записную книжку пустым списком.'''
+        self.notes = []
+        
+    def new_note(self, memo, tags=''):
+        '''Создает новую заметку и добавляет ее в список.'''
+        self.notes.append(Note(memo, tags))
+        
+    def modify_memo(self, note_id, memo):
+        '''Находит заметку с указанным идентификатором и меняет ее содержимое (memo) на указанное значение.'''
+        for note in self.notes:
+            if note.id == note_id:
+                note.memo = memo
+                break
+            
+    def modify_tags(self, note_id, tags):
+        '''Находит заметку с указанным идентификатором и меняет ее метки на указанное значение.'''
+        for note in self.notes:
+            if note.id == note_id:
+                note.tags = tags
+                break
+            
+    def search(self, filter):
+        '''Находит все заметки, соответствующие указанному фильтру.'''
+        return [note for note in self.notes if note.match(filter)]
